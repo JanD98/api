@@ -15,17 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers, viewsets
 from django.contrib import admin
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-
-
 # ViewSets define the view behavior.
+from GroningerAPI.serializers import UserSerializer
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
