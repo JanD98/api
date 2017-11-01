@@ -25,9 +25,7 @@ SECRET_KEY = '$*w5g9081^_-nh67a-#fb2_d&@h2u*z9u@s_$oxfp$a#e6sq3n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'api.battle.braham.biz'
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

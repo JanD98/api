@@ -17,12 +17,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, viewsets
-from rest_framework.decorators import list_route
-from rest_framework.response import Response
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
-from GroningerAPI.views import MoneyViewSet
+from GroningerAPI.views import MoneyView, FacebookView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -55,12 +53,11 @@ class FacebookViewSet(viewsets.ViewSet):
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'money', MoneyViewSet, 'money-view')
-
-router.register(r'facebook', FacebookViewSet, base_name="facebook")
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
+    url(r'^payments', MoneyView.as_view()),
+    url(r'^facebook', FacebookView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -1,13 +1,18 @@
+from django.http import HttpResponse
 from django.views import View
 
 from GroningerAPI.forms import MoneyForm
-from rest_framework.viewsets import ModelViewSet
 
 
-class MoneyViewSet(ModelViewSet):
+class MoneyView(View):
     def post(self, request):
         form = MoneyForm(request.POST)
         assert form.is_valid()
-        amount = form.cleaned_data['amount']
-        currency = form.cleaned_data['currency']
         # logic met je nieuwe data
+        return HttpResponse("TESTT")
+
+
+class FacebookView(View):
+    def get(self, request):
+        # token
+        return HttpResponse("Hanze2017")
