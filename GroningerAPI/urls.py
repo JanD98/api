@@ -21,6 +21,7 @@ from django.contrib import admin
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
+from GroningerAPI.views import MoneyViewSet
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -31,6 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'money', MoneyViewSet, 'money-view')
 
 
 urlpatterns = [
