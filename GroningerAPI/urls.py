@@ -21,6 +21,7 @@ from django.contrib import admin
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
+from GroningerAPI.views import MoneyView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -35,6 +36,7 @@ router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^payments', MoneyView.as_view()),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
