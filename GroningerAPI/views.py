@@ -2,9 +2,10 @@ from django.http import HttpResponse
 from django.views import View
 
 from GroningerAPI.forms import MoneyForm
+from rest_framework.viewsets import ModelViewSet
 
 
-class MoneyView(View):
+class MoneyViewSet(ModelViewSet):
     def post(self, request):
         form = MoneyForm(request.POST)
         assert form.is_valid()
