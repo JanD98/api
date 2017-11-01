@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, viewsets
-from django.contrib import admin
-
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
@@ -28,10 +29,32 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
+class FacebookViewSet(viewsets.ViewSet):
+    @list_route()
+    def index(self, request):
+        return Response("hoi")
+        pass
+
+    def create(self, request):
+        pass
+
+    def retrieve(self, request, pk=None):
+        pass
+
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
+
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-
+router.register(r'facebook', FacebookViewSet, base_name="facebook")
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
