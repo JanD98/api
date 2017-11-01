@@ -14,14 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, viewsets
-from django.contrib import admin
-
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
-from GroningerAPI.views import MoneyView
+from GroningerAPI.views import MoneyView, FacebookView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -37,5 +36,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^payments', MoneyView.as_view()),
+    url(r'^facebook', FacebookView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
