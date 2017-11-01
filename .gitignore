@@ -1,0 +1,13 @@
+
+.idea/GroningerAPI.iml
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+GroningerAPI/__pycache__/
+GroningerAPI/migrations/__pycache__/
+templates/
+/db.sqlite3
+/GroningerAPI/migrations/
