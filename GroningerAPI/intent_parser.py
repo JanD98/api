@@ -94,9 +94,17 @@ class IntentParser:
         return "De prijs is [price]"
 
     @staticmethod
-    def initialize_user(user_id):
+    def parse_message(intent, data, conversation):
+        intent_parser = IntentParser()
+        return getattr(intent_parser, intent)(data, conversation)
+
+    @staticmethod
+    def initialize_user(user_token, facebook):
         conversation = None
-        user = User.objects.get_or_create(user_id=user_id)
+        if not facebook:
+            user = User.objects.get_or_create(session_id=user_token)
+        else:
+            user = User.objects.get_or_create(facebook_id=user_token)
 
         if not conversation:
             conversation = Conversation(user=user)
