@@ -28,7 +28,8 @@ class FacebookView(View):
         facebook = Facebook()
         user_id = facebook.get_user_id_form_message(message)
         message_text = facebook.get_message_text(message)
-        print(user_id, ":", message_text)
+        user_data = facebook.get_user_data(user_id)
+        print(user_data['first_name'], ":", message_text)
         return HttpResponse("received")
 
     def get(self, request):
