@@ -19,3 +19,15 @@ class Facebook:
 
     def send_message(self, facebook_id, message):
         self.graph.post(path='me/messages', recipient={"id": facebook_id}, message={"text": message})
+
+    def send_sender_action(self, facebook_id, action):
+        self.graph.post(path='me/messages', recipient={"id": facebook_id}, sender_action=action)
+
+    def send_mark_as_read(self, facebook_id):
+        self.send_sender_action(facebook_id, "mark_seen")
+
+    def turn_typing_on(self, facebook_id):
+        self.send_sender_action(facebook_id, "typing_on")
+
+    def turn_typing_off(self, facebook_id):
+        self.send_sender_action(facebook_id, "typing_off")

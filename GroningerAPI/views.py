@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views import View
 from rest_framework import viewsets
 
+from GroningerAPI.conversation_handler import Conversation_Handler
 from GroningerAPI.IntentParser import Intent_Parser, IntentParser
 from GroningerAPI.facebook import Facebook
 from GroningerAPI.intent_parser import Intent_Parser
@@ -37,10 +38,13 @@ class FacebookView(View):
         message = message['entry'][0]
         facebook = Facebook()
         user_id = facebook.get_user_id_form_message(message)
+        facebook.send_mark_as_read(user_id)
+        facebook.turn_typing_on(user_id)
         message_text = facebook.get_message_text(message)
         user_data = facebook.get_user_data(user_id)
-        facebook.send_message(user_id, user_data['first_name'] + " stuurde: " + message_text)
-        print(user_data['first_name'], ":", message_text)
+        handler = Conversation_Handler()
+        facebook.send_message(user_id, handler.receive_message(message_text, user_data))
+        facebook.turn_typing_off(user_id)
         return HttpResponse("received")
 
     def get(self, request):
