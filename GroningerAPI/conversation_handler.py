@@ -20,16 +20,16 @@ class ConversationHandler:
                 conversation = Conversation.objects.order_by("-time_stamp").first()
             print(conversation)
 
-            Message.objects.create(conversation, "message", "user", message_text)
+            Message.objects.create(conversation=conversation, type="message", sender="user", data=message_text)
 
             wit_parser = WitParser()
             parsed_intent = wit_parser.parse(message_text)
             intent_parser = IntentParser()
             result = intent_parser.parse(parsed_intent, conversation)
 
-            Message.objects.create(conversation, "message", "bot", result)
+            Message.objects.create(conversation=conversation, type="message", sender="bot", data=result)
 
             return result
         except Exception as e:
             print(e)
-            return str(e)
+            raise e
