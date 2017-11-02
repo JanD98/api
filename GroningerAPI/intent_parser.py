@@ -1,3 +1,4 @@
+from GroningerAPI.conversationdata import ConversationData
 from GroningerAPI.models import Conversation, User
 
 
@@ -20,8 +21,13 @@ class IntentParser:
     def recommend_something(self):
         pass
 
-    def recommend_movie(self):
-        pass
+    def recommend_movie(self, data, conversation):
+        parameters = ConversationData(conversation.conversation_params)
+        parameters.film_subject = data.get("subject")
+        parameters.film_genre = data.get("genre")
+        conversation.conversation_params = parameters.to_json()
+        #
+        return "Hallo, hoe kan ik je helpen?"
 
     def recommend_other(self):
         pass
@@ -57,9 +63,12 @@ class IntentParser:
         pass
 
     @staticmethod
-    def initialize_user(user_id):
+    def initialize_user(user_token, is_facebook):
         conversation = None
-        user = User.objects.get_or_create(user_id=user_id)
+        if is_facebook:
+            user = User.objects.get_or_create(session_id = user_token)
+        else:
+            user = User.objects.get_or_create(facebook_id = user_token)
 
         if not conversation:
             conversation = Conversation(user=user)
