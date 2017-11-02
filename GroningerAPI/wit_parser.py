@@ -12,4 +12,5 @@ class WitParser:
             'accept': 'application/vnd.wit.' + WIT_API_VERSION + '+json'
         })
         resp = urllib.request.urlopen(req)
-        return json.loads(resp.read())
+        encoding = resp.info().get_content_charset('utf-8')
+        return json.loads(resp.read().decode(encoding))
