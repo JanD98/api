@@ -6,11 +6,11 @@ from django.views import View
 from rest_framework import viewsets
 
 from GroningerAPI.conversation_handler import Conversation_Handler
-from GroningerAPI.IntentParser import Intent_Parser, IntentParser
 from GroningerAPI.facebook import Facebook
-from GroningerAPI.intent_parser import Intent_Parser
+from GroningerAPI.intent_parser import IntentParser
 from GroningerAPI.models import User
 from GroningerAPI.serializers import UserSerializer
+
 
 
 class ParserView(View):
@@ -21,12 +21,12 @@ class ParserView(View):
         intent = data.get("intent", "0")
         print(intent)
 
-        intent_class = Intent_Parser()
+        intent_class = IntentParser()
         result = getattr(intent_class, intent)(data)
         # debug print(intent)
 
         user_id = data.get("userId")
-        conversation = IntentParser.initialize_user(user_id)
+        conversation = IntentParser.initialize_user(user_id, False)
 
         intent_parser = IntentParser()
         result = getattr(intent_parser, intent)(data, conversation)

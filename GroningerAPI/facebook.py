@@ -1,5 +1,7 @@
 from facepy import GraphAPI
 
+from GroningerAPI.intent_parser import IntentParser
+
 
 class Facebook:
     graph = ""
@@ -31,3 +33,11 @@ class Facebook:
 
     def turn_typing_off(self, facebook_id):
         self.send_sender_action(facebook_id, "typing_off")
+
+    def get_application_user_by_facebook_id(self, facebook_id):
+        user = IntentParser.initialize_user(facebook_id, True)
+        # if not user.name:
+            # user.name = self.get_user_first(facebook_id)
+            # user.surname = self.get_user_last(facebook_id)
+            #
+        return user

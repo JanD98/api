@@ -4,6 +4,9 @@ from django.db import models
 class User(models.Model):
     email = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    facebook_id = models.CharField(max_length=255)
+    session_id = models.CharField(max_length=255)
     telephone = models.CharField(max_length=30)
     birth_date = models.DateField()
 
