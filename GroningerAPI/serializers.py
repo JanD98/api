@@ -27,10 +27,6 @@ class MessageSerializer(ModelSerializer):
         fields = '__all__'
 
 
-
-
-
-
 class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question

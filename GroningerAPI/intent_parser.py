@@ -1,4 +1,4 @@
-from GroningerAPI.conversationdata import ConversationData
+from GroningerAPI.conversation_data import ConversationData
 from GroningerAPI.models import Conversation, User
 
 
@@ -99,7 +99,7 @@ class IntentParser:
         return getattr(intent_parser, intent)(data, conversation)
 
     @staticmethod
-    def initialize_user(user_token, facebook):
+    def get_conversation_by_token(user_token, facebook):
         conversation = None
         if not facebook:
             user = User.objects.get_or_create(session_id=user_token)
