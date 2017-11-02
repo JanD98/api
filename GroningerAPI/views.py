@@ -1,17 +1,22 @@
 from django.http import HttpResponse
 from django.views import View
-from requests import Response
-from rest_framework.views import APIView
-
-from GroningerAPI.forms import MoneyForm
+from GroningerAPI.intent_parser import Intent_Parser
 
 
-class MoneyView(View):
+class ParserView(View):
+
     def post(self, request):
-        form = MoneyForm(request.POST)
-        assert form.is_valid()
+        print(request.POST)
+        data = request.POST
+        intent = data.get("intent", "0")
+        print(intent)
+        intent_class = Intent_Parser()
+        result = getattr(intent_class, intent)(data)
 
-        amount = form.cleaned_data['amount']
-        currency = form.cleaned_data['currency']
-        # logic met je nieuwe data
-        return HttpResponse(amount)
+        return HttpResponse(result)
+
+
+class FacebookView(View):
+    def get(self, request):
+        # token
+        return HttpResponse("Hanze2017")
