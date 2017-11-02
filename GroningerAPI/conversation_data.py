@@ -1,7 +1,7 @@
 import json
 
-class ConversationData:
 
+class ConversationData:
     film_name = None
     film_date = None
     film_time = None

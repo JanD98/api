@@ -38,7 +38,7 @@ class Facebook:
         self.send_sender_action(facebook_id, "typing_off")
 
     def get_application_user_by_facebook_id(self, facebook_id):
-        user = IntentParser.initialize_user(facebook_id, True)
+        user = IntentParser.get_conversation_by_token(facebook_id, True)
         # if not user.name:
             # user.name = self.get_user_first(facebook_id)
             # user.surname = self.get_user_last(facebook_id)
