@@ -83,9 +83,12 @@ class IntentParser:
         conversation.conversation_params = parameters.to_json()
 
     @staticmethod
-    def initialize_user(user_id):
+    def initialize_user(user_token, facebook):
         conversation = None
-        user = User.objects.get_or_create(user_id=user_id)
+        if not facebook:
+            user = User.objects.get_or_create(session_id=user_token)
+        else:
+            user = User.objects.get_or_create(facebook_id=user_token)
 
         if not conversation:
             conversation = Conversation(user=user)
