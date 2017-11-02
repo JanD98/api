@@ -23,17 +23,16 @@ class Conversation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class MessageType(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField()
-
-
 class Message(models.Model):
     time_stamp = models.DateTimeField(auto_now=True)
     data = models.TextField()
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
-    type = models.ForeignKey(MessageType, on_delete=models.CASCADE)
-    sender = models.ForeignKey(MessageSender, on_delete=models.CASCADE, null=True)
+    type = models.CharField(max_length=30)
+    sender = models.CharField(max_length=30)
+
+    @staticmethod
+    def log(conversation_id, message_type, data):
+        print(conversation_id)
 
 
 class Feedback(models.Model):

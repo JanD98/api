@@ -20,7 +20,7 @@ from rest_framework import routers, viewsets
 
 # ViewSets define the view behavior.
 from GroningerAPI.serializers import UserSerializer
-from GroningerAPI.views import ParserView, FacebookView, UserView
+from GroningerAPI.views import FacebookView, UserView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -35,8 +35,6 @@ router.register(r'users', UserView)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
-    url(r'^bierenbotje', ParserView.as_view()),
-
     url(r'^facebook', FacebookView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
