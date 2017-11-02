@@ -80,10 +80,10 @@ class IntentParser:
         return self.recommend_movie(context)
 
     def recommend_movie(self, context):
-        finder = MovieFinder(**context)
+        finder = MovieFinder(context)
         context['recommends'] = finder.recommend_movies()
         if len(context['recommends']):
-            context['subject'] = context['recommends'][0]
+            context['subject'] = context['recommends'][0] #Dit wordt geen list meer maar een object straks
             return ['Misschien is ' + context['subject'] + ' wat voor je?', context]
         else:
             context['intent'] = 'continue_chat'
@@ -94,7 +94,7 @@ class IntentParser:
 
     def reserve_movie(self, context):
         if 'subject' in context:
-            finder = MovieFinder(**context)
+            finder = MovieFinder(context)
             time = finder.find_best_time()
             if not time:
                 result = self.recommend_movie(context)
