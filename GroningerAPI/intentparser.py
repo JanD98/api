@@ -22,6 +22,8 @@ class IntentParser:
         intent = '_default'
         if 'entities' in data:
             for key, value in data['entities'].items():
+                if type(value) is list:
+                    value = value[0]
                 if key == 'intent':
                     intent = value['value']
                 else:
