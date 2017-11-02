@@ -1,15 +1,19 @@
 from django.http import HttpResponse
 from django.views import View
+from GroningerAPI.intent_parser import Intent_Parser
 
-from GroningerAPI.forms import MoneyForm
 
+class ParserView(View):
 
-class MoneyView(View):
     def post(self, request):
-        form = MoneyForm(request.POST)
-        assert form.is_valid()
-        # logic met je nieuwe data
-        return HttpResponse("TESTT")
+        print(request.POST)
+        data = request.POST
+        intent = data.get("intent", "0")
+        print(intent)
+        intent_class = Intent_Parser()
+        result = getattr(intent_class, intent)(data)
+
+        return HttpResponse(result)
 
 
 class FacebookView(View):
