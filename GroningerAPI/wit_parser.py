@@ -7,7 +7,7 @@ WIT_API_VERSION = '20160516'
 
 class WitParser:
     def parse(self, message):
-        req = urllib.request.Request(url=WIT_API_HOST + '/message?q=' + urllib.urlencode(message), headers={
+        req = urllib.request.Request(url=WIT_API_HOST + '/message?q=' + urllib.parse.urlencode(message), headers={
             'authorization': 'Bearer ' + WIT_ACCESS_TOKEN,
             'accept': 'application/vnd.wit.' + WIT_API_VERSION + '+json'
         })
