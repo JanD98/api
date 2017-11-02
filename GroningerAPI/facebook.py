@@ -16,3 +16,6 @@ class Facebook:
 
     def get_user_data(self, facebook_id):
         return self.graph.get(facebook_id)
+
+    def send_message(self, facebook_id, message):
+        self.graph.post(path='me/messages', recipient={"id": facebook_id}, message={"text": message})
