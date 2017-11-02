@@ -31,6 +31,9 @@ class Facebook:
     def turn_typing_on(self, facebook_id):
         self.send_sender_action(facebook_id, "typing_on")
 
+    def get_user_token_from_optin_request(self, json):
+        return json['messaging'][0]['optin']['ref']
+
     def turn_typing_off(self, facebook_id):
         self.send_sender_action(facebook_id, "typing_off")
 

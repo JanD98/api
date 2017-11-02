@@ -18,16 +18,26 @@ class FacebookView(View):
         message = message['entry'][0]
         facebook = Facebook()
         facebook_user_id = facebook.get_user_id_form_message(message)
-        facebook.send_mark_as_read(facebook_user_id)
-        facebook.turn_typing_on(facebook_user_id)
-        message_text = facebook.get_message_text(message)
         user_data = facebook.get_user_data(facebook_user_id)
-        Message.log(Conversation(pk=1), "message", "user", message_text)
-        handler = Conversation_Handler()
-        response_text = handler.receive_message(message_text, user_data)
-        Message.log(Conversation(pk=1), "message", "bot", response_text)
-        facebook.send_message(facebook_user_id, response_text)
-        facebook.turn_typing_off(facebook_user_id)
+        if 'message' in message['messaging'][0]:
+            # message request
+            print("message")
+            facebook.send_mark_as_read(facebook_user_id)
+            facebook.turn_typing_on(facebook_user_id)
+            message_text = facebook.get_message_text(message)
+            Message.log(Conversation(pk=1), "message", "user", message_text)
+            handler = Conversation_Handler()
+            response_text = handler.receive_message(message_text, user_data)
+            Message.log(Conversation(pk=1), "message", "bot", response_text)
+            facebook.send_message(facebook_user_id, response_text)
+            facebook.turn_typing_off(facebook_user_id)
+        elif 'optin' in message['messaging'][0]:
+            # optin request
+            session_token = facebook.get_user_token_from_optin_request(message)
+            # check if user exists for token
+            user, created = User.objects.get_or_create(session_id=session_token)
+            user.facebook_id = facebook_user_id
+            user.save()
         return HttpResponse("received")
 
     def get(self, request):
