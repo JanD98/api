@@ -52,6 +52,10 @@ class ConversationView(View):
         return HttpResponse(json.dumps(data))
 
     def post(self, request):
+        facebook = Facebook()
+        raw_body = request.body.decode('utf8')
+        data = json.loads(raw_body)
+        facebook.send_message(data["facebook_id"], data["message"])
         return HttpResponse("received")
 
 
