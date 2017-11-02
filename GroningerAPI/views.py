@@ -25,10 +25,10 @@ class FacebookView(View):
             facebook.send_mark_as_read(facebook_user_id)
             facebook.turn_typing_on(facebook_user_id)
             message_text = facebook.get_message_text(message)
-            Message.log(Conversation(pk=1), "message", "user", message_text)
+
             handler = ConversationHandler()
             response_text = handler.receive_message(message_text, user_data)
-            Message.log(Conversation(pk=1), "message", "bot", response_text)
+
             facebook.send_message(facebook_user_id, response_text)
             facebook.turn_typing_off(facebook_user_id)
         elif 'optin' in message['messaging'][0]:

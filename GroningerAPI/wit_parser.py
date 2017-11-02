@@ -6,5 +6,5 @@ class WitParser:
     def __init__(self):
         self.client = Wit(access_token=WIT_ACCESS_TOKEN)
 
-    def get_intent(self, message):
+    def parse(self, message):
         return self.client.message(message)

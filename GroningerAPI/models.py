@@ -30,19 +30,10 @@ class Message(models.Model):
     type = models.CharField(max_length=30)
     sender = models.CharField(max_length=30)
 
-    @staticmethod
-    def log(conversation, message_type, sender, data):
-        Message.objects.create(data=data, conversation=conversation, type=message_type, sender=sender)
-
-
 class Feedback(models.Model):
     rating = models.IntegerField()
-    conversation = models.OneToOneField(
-        Conversation,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-
+    time_stamp = models.DateTimeField(auto_now=True)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
 
 class Question(models.Model):
     question = models.TextField()
