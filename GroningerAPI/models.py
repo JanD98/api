@@ -31,8 +31,8 @@ class Message(models.Model):
     sender = models.CharField(max_length=30)
 
     @staticmethod
-    def log(conversation_id, message_type, data):
-        print(conversation_id)
+    def log(conversation, message_type, sender, data):
+        Message.objects.create(data=data, conversation=conversation, type=message_type, sender=sender)
 
 
 class Feedback(models.Model):
