@@ -1,6 +1,7 @@
 from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponse
 from django.views import View
+from rest_framework import viewsets
 
 from GroningerAPI.intent_parser import Intent_Parser
 from GroningerAPI.models import User
@@ -37,7 +38,7 @@ class FacebookView(View):
         raise SuspiciousOperation("Invalid mode")
 
 
-class UserView(View):
+class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
