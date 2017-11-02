@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from rest_framework import viewsets
 
-from GroningerAPI.intent_parser import Intent_Parser
+from GroningerAPI.IntentParser import Intent_Parser, IntentParser
 from GroningerAPI.models import User
 from GroningerAPI.serializers import UserSerializer
 
@@ -14,9 +14,14 @@ class ParserView(View):
         print(request.POST)
         data = request.POST
         intent = data.get("intent", "0")
-        print(intent)
-        intent_class = Intent_Parser()
-        result = getattr(intent_class, intent)(data)
+        # debug print(intent)
+
+        user_id = data.get("userId")
+        conversation = IntentParser.initialize_user(user_id)
+
+        intent_parser = IntentParser()
+        result = getattr(intent_parser, intent)(data, conversation)
+
 
         return HttpResponse(result)
 

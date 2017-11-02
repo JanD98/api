@@ -1,14 +1,12 @@
 from GroningerAPI.models import Conversation, User
 
 
-class Intent_Parser:
+class IntentParser:
     def __int__(self):
         pass
 
-    def yes(self, data):
-        user_id = data.get("userId")
-        conversation = self.initialize_user(user_id)
-        return data.get("subject", "0")
+    def yes(self, data, conversation):
+
 
     def no(self):
         pass
@@ -58,16 +56,16 @@ class Intent_Parser:
     def price_information(self):
         pass
 
-    def initialize_user(self, id):
+    @staticmethod
+    def initialize_user(user_id):
         conversation = None
-        user = User.objects.get_or_create(user_id=id)
+        user = User.objects.get_or_create(user_id=user_id)
 
         if not conversation:
             conversation = Conversation(user=user)
             conversation.save(force_insert=True)
         else:
             conversation = Conversation.objects.order_by("-time_stamp").first()
-
 
         return conversation
 
