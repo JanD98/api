@@ -1,14 +1,44 @@
 import json
 
 from django.core.exceptions import SuspiciousOperation
+from django.db import connection
 from django.http import HttpResponse
 from django.views import View
 from rest_framework import viewsets
 
 from GroningerAPI.conversation_handler import ConversationHandler
 from GroningerAPI.facebook import Facebook
-from GroningerAPI.models import User, Message, Conversation
+from GroningerAPI.models import User
 from GroningerAPI.serializers import UserSerializer
+
+
+class ConversationView(View):
+    def get(self, request):
+        facebook = Facebook()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "select c.id, data as last_message, m.time_stamp, sender, u.facebook_id"
+                " from GroningerAPI_message m" +
+                " JOIN GroningerAPI_conversation c on m.conversation_id = c.id" +
+                " JOIN GroningerAPI_user u on c.user_id = u.id" +
+                " GROUP BY conversation_id" +
+                " order by m.time_stamp DESC", )
+            rows = cursor.fetchall()
+        data = []
+        for row in rows:
+            facebook_user = facebook.get_user_data(facebook_id=row[4])
+            data.append({
+                "id": row[0],
+                "last_message": row[1],
+                'timestamp': row[2].strftime('%s'),
+                'sender': row[3],
+                'image': facebook_user['profile_pic'],
+                'name': facebook_user["first_name"] + " " + facebook_user["last_name"]
+            })
+        return HttpResponse(json.dumps(data))
+
+    def post(self, request):
+        return HttpResponse("received")
 
 
 class FacebookView(View):
