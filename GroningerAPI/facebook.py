@@ -1,5 +1,7 @@
 from facepy import GraphAPI
 
+from GroningerAPI.intent_parser import IntentParser
+
 
 class Facebook:
     graph = ""
@@ -19,3 +21,23 @@ class Facebook:
 
     def send_message(self, facebook_id, message):
         self.graph.post(path='me/messages', recipient={"id": facebook_id}, message={"text": message})
+
+    def send_sender_action(self, facebook_id, action):
+        self.graph.post(path='me/messages', recipient={"id": facebook_id}, sender_action=action)
+
+    def send_mark_as_read(self, facebook_id):
+        self.send_sender_action(facebook_id, "mark_seen")
+
+    def turn_typing_on(self, facebook_id):
+        self.send_sender_action(facebook_id, "typing_on")
+
+    def turn_typing_off(self, facebook_id):
+        self.send_sender_action(facebook_id, "typing_off")
+
+    def get_application_user_by_facebook_id(self, facebook_id):
+        user = IntentParser.initialize_user(facebook_id, True)
+        # if not user.name:
+            # user.name = self.get_user_first(facebook_id)
+            # user.surname = self.get_user_last(facebook_id)
+            #
+        return user

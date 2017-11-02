@@ -1,6 +1,5 @@
 import json
 
-
 class ConversationData:
 
     film_name = None
@@ -17,8 +16,9 @@ class ConversationData:
     end_time = None
     subject = None
     duration = None
-    def __init__(self, j):
-        self.__dict__ = json.loads(j)
+
+    def __init__(self, j_object):
+        self.__dict__ = json.loads(j_object)
 
     def to_json(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

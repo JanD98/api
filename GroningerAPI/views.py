@@ -5,23 +5,28 @@ from django.http import HttpResponse
 from django.views import View
 from rest_framework import viewsets
 
-from GroningerAPI.IntentParser import Intent_Parser, IntentParser
+from GroningerAPI.conversation_handler import Conversation_Handler
 from GroningerAPI.facebook import Facebook
-from GroningerAPI.intent_parser import Intent_Parser
+from GroningerAPI.intent_parser import IntentParser
 from GroningerAPI.models import User
 from GroningerAPI.serializers import UserSerializer
+
 
 
 class ParserView(View):
 
     def post(self, request):
-        print(request.POST)
-        data = request.POST
+        print(request.body)
+        data = json.loads(request.body)
         intent = data.get("intent", "0")
+        print(intent)
+
+        intent_class = IntentParser()
+        result = getattr(intent_class, intent)(data)
         # debug print(intent)
 
         user_id = data.get("userId")
-        conversation = IntentParser.initialize_user(user_id)
+        conversation = IntentParser.initialize_user(user_id, False)
 
         intent_parser = IntentParser()
         result = getattr(intent_parser, intent)(data, conversation)
@@ -37,10 +42,13 @@ class FacebookView(View):
         message = message['entry'][0]
         facebook = Facebook()
         user_id = facebook.get_user_id_form_message(message)
+        facebook.send_mark_as_read(user_id)
+        facebook.turn_typing_on(user_id)
         message_text = facebook.get_message_text(message)
         user_data = facebook.get_user_data(user_id)
-        facebook.send_message(user_id, user_data['first_name'] + " stuurde: " + message_text)
-        print(user_data['first_name'], ":", message_text)
+        handler = Conversation_Handler()
+        facebook.send_message(user_id, handler.receive_message(message_text, user_data))
+        facebook.turn_typing_off(user_id)
         return HttpResponse("received")
 
     def get(self, request):
