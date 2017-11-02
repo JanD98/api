@@ -1,5 +1,8 @@
 from random import randint
 
+from GroningerAPI.models import Movie
+
+
 class MovieFinder(object):
     def __init__(self, subject=None, genre=None, datetime=None):
         self.subject = subject
@@ -11,8 +14,14 @@ class MovieFinder(object):
         return '2017-11-06T20:00:00'
 
     def recommend_movies(self):
-        # todo
-        return ['Pulp Fiction', 'Reservoir Dogs', 'Hateful Eight'][:randint(0, 3)]
+        if self.genre & self.subject:
+            return Movie.objects.filter(genre=self.genre, subject=self.subject).order_by('?').first()
+        elif self.genre:
+            return Movie.objects.filter(genre=self.genre).order_by('?').first()
+        elif self.subject:
+            return Movie.objects.filter(subject=self.subject).order_by('?').first()
+        else:
+            return Movie.objects.order_by('?').first()
 
     def reserve(self, number, user):
         # todo

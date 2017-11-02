@@ -30,10 +30,12 @@ class Message(models.Model):
     type = models.CharField(max_length=30)
     sender = models.CharField(max_length=30)
 
+
 class Feedback(models.Model):
     rating = models.IntegerField()
     time_stamp = models.DateTimeField(auto_now=True)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+
 
 class Question(models.Model):
     question = models.TextField()
@@ -47,8 +49,9 @@ class DefaultAnswer(models.Model):
 
 
 class Movie(models.Model):
-    name = models.CharField(max_length=30)
-    genre = models.CharField(max_length=30)
+    name = models.CharField(max_length=255)
+    genre = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
 
 
 class MovieTime(models.Model):
