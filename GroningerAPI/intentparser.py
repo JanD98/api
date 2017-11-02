@@ -65,7 +65,7 @@ class IntentParser:
             finder = MovieFinder(**context)
             time = finder.find_best_time()
             if not time:
-                result = self.recommend_movie(self, context)
+                result = self.recommend_movie(context)
                 result[0] = 'Helaas, ik kan ' + context['subject'] + ' niet vinden. ' + result[0]
                 return result
             context['datetime'] = time
@@ -95,7 +95,7 @@ class IntentParser:
             finder = MovieFinder(**context)
             time = finder.find_best_time()
             if not time:
-                result = self.recommend_movie(self, context)
+                result = self.recommend_movie(context)
                 result[0] = 'Helaas, ik kan ' + context['subject'] + ' %(film)s niet vinden. ' + result[0]
                 return result
             elif 'datetime' in context and time != context['datetime']['value']:

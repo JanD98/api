@@ -41,6 +41,16 @@ class ConversationView(View):
         return HttpResponse("received")
 
 
+class WebsiteView(View):
+    def post(self, request):
+        data = request.GET
+        user_token = data.get("user_token")
+        message_text = data.get("message")
+        handler = ConversationHandler()
+        response_text = handler.receive_message(message_text, "{'id': '" + user_token + "'}")
+        return HttpResponse("{'Question': '" + response_text + "'}")
+
+
 class FacebookView(View):
     def post(self, request):
         raw_body = request.body.decode('utf8')
