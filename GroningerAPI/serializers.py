@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from GroningerAPI.models import User
+from GroningerAPI.models import User, Conversation, DefaultAnswer, MovieTime, Movie, Question, Employee, MessageType, \
+    Message, Feedback
 
 
 class UserSerializer(ModelSerializer):
@@ -9,3 +10,56 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = '__all__'
 
+
+class ConversationSerializer(ModelSerializer):
+    class Meta:
+        model = Conversation
+        fields = '__all__'
+
+
+class FeedbackSerializer(ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = '__all__'
+
+
+class MessageSerializer(ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
+class MessageTypeSerializer(ModelSerializer):
+    class Meta:
+        model = MessageType
+        fields = '__all__'
+
+
+class EmployeeSerializer(ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+
+class QuestionSerializer(ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+
+class MovieSerializer(ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'
+
+
+class MovieTimeSerializer(ModelSerializer):
+    class Meta:
+        model = MovieTime
+        fields = '__all__'
+
+
+class DefaultAnswerSerializer(ModelSerializer):
+    class Meta:
+        model = DefaultAnswer
+        fields = '__all__'

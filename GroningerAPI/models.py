@@ -25,7 +25,7 @@ class MessageType(models.Model):
     description = models.TextField()
 
 
-class Messages(models.Model):
+class Message(models.Model):
     time_stamp = models.DateTimeField(auto_now=True)
     data = models.TextField()
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
