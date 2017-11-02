@@ -1,12 +1,14 @@
+import json
+
 from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponse
 from django.views import View
 
+from GroningerAPI.facebook import Facebook
 from GroningerAPI.intent_parser import Intent_Parser
 
 
 class ParserView(View):
-
     def post(self, request):
         print(request.POST)
         data = request.POST
@@ -19,6 +21,16 @@ class ParserView(View):
 
 
 class FacebookView(View):
+    def post(self, request):
+        raw_body = request.body.decode('utf8')
+        message = json.loads(raw_body)
+        message = message['entry'][0]
+        facebook = Facebook()
+        user_id = facebook.get_user_id_form_message(message)
+        message_text = facebook.get_message_text(message)
+        print(user_id, ":", message_text)
+        return HttpResponse("received")
+
     def get(self, request):
         # token
         data = request.GET
