@@ -4,6 +4,7 @@ from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponse
 from django.views import View
 
+from GroningerAPI.conversation_handler import Conversation_Handler
 from GroningerAPI.facebook import Facebook
 from GroningerAPI.intent_parser import Intent_Parser
 
@@ -29,8 +30,9 @@ class FacebookView(View):
         user_id = facebook.get_user_id_form_message(message)
         message_text = facebook.get_message_text(message)
         user_data = facebook.get_user_data(user_id)
-        facebook.send_message(user_id, user_data['first_name'] + " stuurde: " + message_text)
-        print(user_data['first_name'], ":", message_text)
+        print (user_data)
+        handler = Conversation_Handler()
+        facebook.send_message(user_id, handler.receive_message(message_text, user_data))
         return HttpResponse("received")
 
     def get(self, request):
