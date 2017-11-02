@@ -2,13 +2,13 @@ from django.db import models
 
 
 class User(models.Model):
-    email = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
-    facebook_id = models.CharField(max_length=255)
-    session_id = models.CharField(max_length=255)
-    telephone = models.CharField(max_length=30)
-    birth_date = models.DateField()
+    email = models.CharField(max_length=255, null=True)
+    name = models.CharField(max_length=255, null=True)
+    surname = models.CharField(max_length=255, null=True)
+    facebook_id = models.CharField(max_length=255, null=True)
+    session_id = models.CharField(max_length=255, null=True)
+    telephone = models.CharField(max_length=30, null=True)
+    birth_date = models.DateField(null=True)
 
 
 class MessageSender(models.Model):
