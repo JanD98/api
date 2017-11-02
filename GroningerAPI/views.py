@@ -15,9 +15,13 @@ from GroningerAPI.serializers import UserSerializer
 class ParserView(View):
 
     def post(self, request):
-        print(request.POST)
-        data = request.POST
+        print(request.body)
+        data = json.loads(request.body)
         intent = data.get("intent", "0")
+        print(intent)
+
+        intent_class = Intent_Parser()
+        result = getattr(intent_class, intent)(data)
         # debug print(intent)
 
         user_id = data.get("userId")

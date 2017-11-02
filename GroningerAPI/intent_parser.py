@@ -1,3 +1,4 @@
+from GroningerAPI.conversationdata import ConversationData
 from GroningerAPI.models import Conversation, User
 
 
@@ -6,7 +7,7 @@ class IntentParser:
         pass
 
     def yes(self, data, conversation):
-
+        pass
 
     def no(self):
         pass
@@ -20,8 +21,13 @@ class IntentParser:
     def recommend_something(self):
         pass
 
-    def recommend_movie(self):
-        pass
+    def recommend_movie(self, data, conversation):
+        parameters = ConversationData(conversation.conversation_params)
+        parameters.film_subject = data.get("subject")
+        parameters.film_genre = data.get("genre")
+        conversation.conversation_params = parameters.to_json()
+        #
+        return "Hallo, hoe kan ik je helpen?"
 
     def recommend_other(self):
         pass
