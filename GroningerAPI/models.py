@@ -16,7 +16,7 @@ class MessageSender(models.Model):
 
 
 class Conversation(models.Model):
-    time_stamp = models.DateTimeField()
+    time_stamp = models.DateTimeField(auto_now=True)
     active = models.CharField(max_length=30)
     conversation_params = models.TextField()
     language = models.CharField(max_length=30)
