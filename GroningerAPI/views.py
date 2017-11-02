@@ -8,7 +8,7 @@ from rest_framework import viewsets
 
 from GroningerAPI.conversation_handler import ConversationHandler
 from GroningerAPI.facebook import Facebook
-from GroningerAPI.models import User
+from GroningerAPI.models import User, Message
 from GroningerAPI.serializers import UserSerializer
 
 
@@ -27,17 +27,35 @@ class ConversationView(View):
         data = []
         for row in rows:
             facebook_user = facebook.get_user_data(facebook_id=row[4])
+            messages = []
+            raw_messages = list(Message.objects.all().filter(conversation_id=row[0]))
+            # heel lelijk omdat ik niet snap hoe query sets in dajngo werken
+
+            for message in raw_messages:
+                messages.append({
+                    "id": message.id,
+                    "content": message.data,
+                    "sender": message.sender,
+                    "type": message.type,
+                    "timestamp": message.time_stamp.strftime('%s')
+                })
             data.append({
                 "id": row[0],
+                'facebook_id': [4],
                 "last_message": row[1],
                 'timestamp': row[2].strftime('%s'),
                 'sender': row[3],
+                'messages': messages,
                 'image': facebook_user['profile_pic'],
                 'name': facebook_user["first_name"] + " " + facebook_user["last_name"]
             })
         return HttpResponse(json.dumps(data))
 
     def post(self, request):
+        facebook = Facebook()
+        raw_body = request.body.decode('utf8')
+        data = json.loads(raw_body)
+        facebook.send_message(data["facebook_id"], data["message"])
         return HttpResponse("received")
 
 
