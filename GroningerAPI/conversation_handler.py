@@ -8,9 +8,9 @@ class ConversationHandler:
             conversation = None
             # beetje dodgy
             if 'first_name' not in user_data:
-                user = User.objects.get_or_create(session_id=user_data['id'])
+                user, created = User.objects.get_or_create(session_id=user_data['id'])
             else:
-                user = User.objects.get_or_create(facebook_id=user_data['id'], name=user_data['first_name'], surname=user_data['last_name'])
+                user, created = User.objects.get_or_create(facebook_id=user_data['id'], name=user_data['first_name'], surname=user_data['last_name'])
             print(user)
 
             if not conversation:
