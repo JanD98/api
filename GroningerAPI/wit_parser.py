@@ -11,5 +11,5 @@ class WitParser:
             'authorization': 'Bearer ' + WIT_ACCESS_TOKEN,
             'accept': 'application/vnd.wit.' + WIT_API_VERSION + '+json'
         })
-        resp = urllib.urlopen(req)
+        resp = urllib.request.urlopen(req)
         return json.loads(resp.read())
