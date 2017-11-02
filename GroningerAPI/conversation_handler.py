@@ -30,6 +30,6 @@ class ConversationHandler:
             Message.objects.create(conversation, "message", "bot", result)
 
             return result
-        except Exception, e:
+        except Exception as e:
             print(e)
             return str(e)
