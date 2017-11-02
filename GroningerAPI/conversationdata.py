@@ -1,4 +1,4 @@
-from django.core.serializers import json
+import json
 
 
 class ConversationData:
@@ -6,12 +6,17 @@ class ConversationData:
     film_name = None
     film_date = None
     film_time = None
-    film_genre = None
+    genre = None
     film_location = None
     number_of_persons = None
     booking_date = None
     booking_time = None
-
+    review_sentiment = None
+    book_author = None
+    start_time = None
+    end_time = None
+    subject = None
+    duration = None
     def __init__(self, j):
         self.__dict__ = json.loads(j)
 
