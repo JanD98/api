@@ -83,6 +83,11 @@ class IntentParser:
         conversation.conversation_params = parameters.to_json()
 
     @staticmethod
+    def parse_message(intent, data, conversation):
+        intent_parser = IntentParser()
+        return getattr(intent_parser, intent)(data, conversation)
+
+    @staticmethod
     def initialize_user(user_token, facebook):
         conversation = None
         if not facebook:

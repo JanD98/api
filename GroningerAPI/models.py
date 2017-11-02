@@ -11,7 +11,7 @@ class User(models.Model):
     birth_date = models.DateField()
 
 
-class Employee(models.Model):
+class MessageSender(models.Model):
     name = models.CharField(max_length=255)
 
 
@@ -33,7 +33,7 @@ class Message(models.Model):
     data = models.TextField()
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     type = models.ForeignKey(MessageType, on_delete=models.CASCADE)
-    sender = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    sender = models.ForeignKey(MessageSender, on_delete=models.CASCADE, null=True)
 
 
 class Feedback(models.Model):
