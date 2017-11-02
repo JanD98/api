@@ -26,7 +26,8 @@ class IntentParser:
                     intent = value['value']
                 else:
                     context[key] = value['value']
-        result, context = getattr(self)(intent, context)
+        # todo: misschien hier na een paar keer menselijke help inroepen?
+        result, context = getattr(self)(intent, context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
         for key, value in context:
             if key != 'conversation':
                 setattr(conversation_data, key, value)
