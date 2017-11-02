@@ -6,9 +6,8 @@ from django.views import View
 from rest_framework import viewsets
 
 from GroningerAPI.conversation_handler import Conversation_Handler
-from GroningerAPI.IntentParser import Intent_Parser, IntentParser
 from GroningerAPI.facebook import Facebook
-from GroningerAPI.intent_parser import Intent_Parser
+from GroningerAPI.intent_parser import IntentParser
 from GroningerAPI.models import User
 from GroningerAPI.serializers import UserSerializer
 

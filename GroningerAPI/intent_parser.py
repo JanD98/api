@@ -6,7 +6,7 @@ class IntentParser:
         pass
 
     def yes(self, data, conversation):
-
+        pass
 
     def no(self):
         pass
