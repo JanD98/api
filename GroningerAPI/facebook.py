@@ -1,3 +1,5 @@
+from random import randint
+
 from facepy import GraphAPI
 
 from GroningerAPI.intent_parser import IntentParser
@@ -5,8 +7,13 @@ from GroningerAPI.intent_parser import IntentParser
 
 class Facebook:
     graph = ""
-    api_token = "EAAEGVfJehVABADQboSAmxsCBb64Drfs6JQ8NaOJ8ogD68bIZBTPapSZAqZApZBSSvkhbcddhF7srS5Hh1aAuddKlQRZB2UyqHs3ZCs6lYjK4ySlJb2DguxnsvczIaMh7ZC0ZBvN1I4mHoFGEwzNpkpegda9slYK1vFZAjKOGDJeio93033c2WTLZAt"
+    api_token_list = ["EAAEGVfJehVABADQboSAmxsCBb64Drfs6JQ8NaOJ8ogD68bIZBTPapSZAqZApZBSSvkhbcddhF7srS5Hh1aAuddKlQRZB2UyqHs3ZCs6lYjK4ySlJb2DguxnsvczIaMh7ZC0ZBvN1I4mHoFGEwzNpkpegda9slYK1vFZAjKOGDJeio93033c2WTLZAt",
+                 "EAAEGVfJehVABAHny3mZBn8JV5NjfG1nHnKCgxBaZBsmZBpsC5WF1tKl6uFZC5O4ZCJkWdpgZAsJqb1k8WdpX6k9QlBMWZCKtKQf9eIjL7tVZASRy2LUT5cmYNEKoVr7zwPn6IYhyWZCZBP0lf9ZCkZB3scZCNOwX8AXamPZAgrw9ZC8k1zT0B4jltZAP1YQx",
+                 "EAAEGVfJehVABAEQ2qAXrAJgRQ5ZAkwudQC3KZBw96UzbS4cksaoXOB9EVGbljQ92WIet5Is0CUTQDKqDPsI4AnZAgyI3DuUWuL6UQinUue84dYQo5MhJsdiZC7Us4n026Y6kjvMhAZB8F8WsxSwh3T3xwBQ6EqnD1CW5Sm2sYXG96jAyVIYKt",
+                 "EAAEGVfJehVABAKZA5HHZBX3v1o8qEwqSINygSwgWrD7lQMrA3yCWKE6FlpWzLIkn5ZCAOplFRlWZCQhhIb6cIZCXun77IrUwJA8gzCY9eZC7PLZB7BQXkYg4P0NZClMWlJxFnFLHlHzZC5vKywoEspZCFOBwmDAq835gQBtpK9onTXIPHTfrAZCxH26",
+                 "EAAEGVfJehVABAKZB8yogkB7vwzMdcuYRHEjDQu5EwoNgXOjOey5LaPBDYhFnzZCoiyZCDeWekn5fS1rHHvAZAXBAfkRk6RgKfkfNRULLsamtc2aP5QwsUTtUdeMjZC2ZB4LVRA3HS1984zSNZCIjBAfMQlHM93TNnjJS8zZABPgTJo19OGz81aAJ"]
 
+    api_token = api_token_list[randint(0, 4)]
     def __init__(self):
         self.graph = GraphAPI(self.api_token)
 
@@ -21,7 +28,7 @@ class Facebook:
                 'headers': {'Cache-Control': 'private, no-cache, no-store, must-revalidate', 'Connection': 'keep-alive', 'Content-Type': 'application/json; charset=UTF-8', 'x-fb-rev': '3422078', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding', 'Pragma': 'no-cache',
                             'Date': 'Thu, 02 Nov 2017 11:04:19 GMT', 'x-fb-trace-id': 'A7RTUulgFML', 'ETag': '"a76ec7f2451f48af7bb25030d25ee3b976d9e172"', 'Access-Control-Allow-Origin': '*', 'facebook-api-version': 'v2.10',
                             'X-FB-Debug': 'mgeNOpGAu/DOQZ+Pm/sFEXbvhoIEjm0RTGN6xVMRjWxZa+9q+DxOGgq2zja5bBASsNF7Df5rfYb9qLr7PC6dwQ==', 'Content-Length': '234', 'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'}, 'last_name': 'Wouters', 'first_name': 'Ton', 'timezone': 1}
-        return self.graph.get(facebook_id)
+
 
     def send_message(self, facebook_id, message):
         self.graph.post(path='me/messages', recipient={"id": facebook_id}, message={"text": message})
