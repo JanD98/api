@@ -59,15 +59,15 @@ class Intent_Parser:
         pass
 
     def initialize_user(self, id):
-        user = User.objects.filter(user_id=id)
         conversation = None
-        if not user:
-            user = User(user_id=id)
-            user.save()
-            conversation = ""
-            #convo aanmaken
+        user = User.objects.get_or_create(user_id=id)
+
+        if not conversation:
+            conversation = Conversation(user=user)
+            conversation.save(force_insert=True)
         else:
-            conversation = ""
-            #laatste convo ophalen van user
+            conversation = Conversation.objects.order_by("-time_stamp").first()
+
 
         return conversation
+
