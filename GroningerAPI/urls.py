@@ -28,26 +28,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class FacebookViewSet(viewsets.ViewSet):
-    @list_route()
-    def index(self, request):
-        return Response("hoi")
-        pass
-
-    def create(self, request):
-        pass
-
-    def retrieve(self, request, pk=None):
-        pass
-
-    def update(self, request, pk=None):
-        pass
-
-    def partial_update(self, request, pk=None):
-        pass
-
-    def destroy(self, request, pk=None):
-        pass
 
 
 # Routers provide an easy way of automatically determining the URL conf.

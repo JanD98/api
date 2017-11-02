@@ -1,5 +1,7 @@
+from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponse
 from django.views import View
+
 from GroningerAPI.intent_parser import Intent_Parser
 
 
@@ -19,4 +21,15 @@ class ParserView(View):
 class FacebookView(View):
     def get(self, request):
         # token
-        return HttpResponse("Hanze2017")
+        data = request.GET
+        token = data.get("hub.verify_token")
+        mode = data.get("hub.mode")
+        if token != "hanze2017":
+            raise SuspiciousOperation("Token invalid")
+        if not mode:
+            raise SuspiciousOperation("Mode missing")
+        if mode == "subscribe":
+            # validate app
+            return HttpResponse(data.get("hub.challenge"))
+        # something went wrong if this line is reached
+        raise SuspiciousOperation("Invalid mode")
