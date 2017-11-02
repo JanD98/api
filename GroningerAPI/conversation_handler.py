@@ -11,14 +11,14 @@ class ConversationHandler:
                 user = User.objects.get_or_create(session_id=user_data['id'])
             else:
                 user = User.objects.get_or_create(facebook_id=user_data['id'], name=user_data['first_name'], surname=user_data['last_name'])
-            print user
+            print(user)
 
             if not conversation:
                 conversation = Conversation(user=user)
                 conversation.save(force_insert=True)
             else:
                 conversation = Conversation.objects.order_by("-time_stamp").first()
-            print conversation
+            print(conversation)
 
             Message.objects.create(conversation, "message", "user", message_text)
 
@@ -31,5 +31,5 @@ class ConversationHandler:
 
             return result
         except Exception, e:
-            print e
+            print(e)
             return str(e)
