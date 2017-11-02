@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.views import View
 
 from GroningerAPI.intent_parser import Intent_Parser
+from GroningerAPI.models import User
+from GroningerAPI.serializers import UserSerializer
 
 
 class ParserView(View):
@@ -33,3 +35,15 @@ class FacebookView(View):
             return HttpResponse(data.get("hub.challenge"))
         # something went wrong if this line is reached
         raise SuspiciousOperation("Invalid mode")
+
+
+class UserView(View):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+    def post(self, request):
+        data = request.POST
+        email = data.get("email")
+        user = User.objects.filter(email=email)
+        return HttpResponse(user)
+
