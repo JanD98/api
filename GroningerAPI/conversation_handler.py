@@ -1,4 +1,4 @@
-from GroningerAPI.intent_parser import IntentParser
+from GroningerAPI.intentparser import IntentParser
 from GroningerAPI.models import Message, Conversation, User
 from GroningerAPI.wit_parser import WitParser
 

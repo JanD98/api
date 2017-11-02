@@ -1,6 +1,6 @@
-from GroningerAPI.conversationdata import ConversationData
+from GroningerAPI.conversation_data import ConversationData
 from GroningerAPI.dateformatter import DateFormatter
-from GroningerAPI.models import Conversation, User, Feedback
+from GroningerAPI.models import Feedback
 from GroningerAPI.moviefinder import MovieFinder
 from GroningerAPI.parkingfinder import ParkingFinder
 
@@ -17,18 +17,18 @@ class IntentParser:
     def parse(self, data, conversation):
         conversation_data = ConversationData(conversation.conversation_params)
         context = {'conversation': conversation}
-        for key, value in conversation_data.__dict__:
+        for key, value in conversation_data.__dict__.items():
             context[key] = value
         intent = '_default'
         if 'entities' in data:
-            for key, value in data['entities']:
+            for key, value in data['entities'].items():
                 if key == 'intent':
                     intent = value['value']
                 else:
                     context[key] = value['value']
         # todo: misschien hier na een paar keer menselijke help inroepen?
-        result, context = getattr(self)(intent, context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
-        for key, value in context:
+        result, context = getattr(self, intent)(context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
+        for key, value in context.items():
             if key != 'conversation':
                 setattr(conversation_data, key, value)
         conversation.conversation_params = conversation_data.to_json()

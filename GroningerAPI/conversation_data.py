@@ -18,7 +18,10 @@ class ConversationData:
     duration = None
 
     def __init__(self, j_object):
-        self.__dict__ = json.loads(j_object)
+        try:
+            self.__dict__ = json.loads(j_object)
+        except:
+            self.__dict__ = {}
 
     def to_json(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
