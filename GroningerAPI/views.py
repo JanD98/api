@@ -28,11 +28,13 @@ class FacebookView(View):
         message = message['entry'][0]
         facebook = Facebook()
         user_id = facebook.get_user_id_form_message(message)
+        facebook.send_mark_as_read(user_id)
+        facebook.turn_typing_on(user_id)
         message_text = facebook.get_message_text(message)
         user_data = facebook.get_user_data(user_id)
-        print (user_data)
         handler = Conversation_Handler()
         facebook.send_message(user_id, handler.receive_message(message_text, user_data))
+        facebook.turn_typing_off(user_id)
         return HttpResponse("received")
 
     def get(self, request):
