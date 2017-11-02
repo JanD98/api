@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views import View
 from rest_framework import viewsets
 
-from GroningerAPI.conversation_handler import Conversation_Handler
+from GroningerAPI.conversation_handler import ConversationHandler
 from GroningerAPI.facebook import Facebook
 from GroningerAPI.models import User, Message, Conversation
 from GroningerAPI.serializers import UserSerializer
@@ -26,7 +26,7 @@ class FacebookView(View):
             facebook.turn_typing_on(facebook_user_id)
             message_text = facebook.get_message_text(message)
             Message.log(Conversation(pk=1), "message", "user", message_text)
-            handler = Conversation_Handler()
+            handler = ConversationHandler()
             response_text = handler.receive_message(message_text, user_data)
             Message.log(Conversation(pk=1), "message", "bot", response_text)
             facebook.send_message(facebook_user_id, response_text)
