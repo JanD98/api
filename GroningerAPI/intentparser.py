@@ -63,7 +63,7 @@ class IntentParser:
     def yes(self, context):
         if 'intent' in context:
             if context['intent'] == 'parking':
-                return ['Zou ik dan je kenteken mogen?', {'context': 'license'}]
+                return ['Zou ik dan je kenteken mogen?', {'intent': 'license'}]
             if context['intent'] == 'review':
                 context['sentiment'] = 'positive'
                 return self.review(context)
@@ -85,7 +85,7 @@ class IntentParser:
                 context['sentiment'] = 'negative'
                 return self.review(context)
             elif context['intent'] == 'continue_chat':
-                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {'context': 'review'}]
+                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {'intent': 'review'}]
             elif context['intent'] == 'recommend_movie':
                 return self.recommend_other(context)
             elif context['intent'] == 'buy_drinks':
@@ -176,7 +176,7 @@ class IntentParser:
             return ['Ik stuur je door: https://www.groningerforum.nl/reserveren/65b98c9a-9aa3-41af-80ca-8c2329ff8b12', context]
 
     def find_parking(self, context):
-        return ["Ik weet dat nu niet. Ik laat mijn leraar, Sandrine, even meekijken", {"context": "parking"}]
+        return ["Ik weet dat nu niet. Ik laat mijn leraar, Sandrine, even meekijken", {"intent": "parking"}]
 
     def review(self, context):
         if 'sentiment' in context and 'conversation' in context:
