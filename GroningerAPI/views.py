@@ -61,11 +61,12 @@ class ConversationView(View):
 
 class WebsiteView(View):
     def post(self, request):
-        data = request.GET
+        data = request.POST
         user_token = data.get("user_token")
         message_text = data.get("message")
+        return HttpResponse(message_text)
         handler = ConversationHandler()
-        response_text = handler.receive_message(message_text, "{'id': '" + user_token + "'}")
+        response_text = handler.receive_message(message_text, {"id": user_token})
         return HttpResponse("{'Question': '" + response_text + "'}")
 
 
