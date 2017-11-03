@@ -30,7 +30,7 @@ class IntentParser:
                     intent = value['value']
                     print(intent)
                 else:
-                    context[key] = value['value']
+                    context[key] = value['from'] if 'from' in value else value['value']
                     print(context)
         print(intent)
         # todo: misschien hier na een paar keer menselijke help inroepen?
