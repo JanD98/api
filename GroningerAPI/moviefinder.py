@@ -14,14 +14,15 @@ class MovieFinder(object):
         return '2017-11-06T20:00:00'
 
     def recommend_movies(self):
-        if self.genre & self.subject:
-            return Movie.objects.filter(genre=self.genre, subject=self.subject).order_by('?').first()
-        elif self.genre:
-            return Movie.objects.filter(genre=self.genre).order_by('?').first()
-        elif self.subject:
-            return Movie.objects.filter(subject=self.subject).order_by('?').first()
-        else:
-            return Movie.objects.order_by('?').first()
+        return 'Pulp Fiction'
+        # if self.genre & self.subject:
+        #     return Movie.objects.filter(genre=self.genre, subject=self.subject).order_by('?').first()
+        # elif self.genre:
+        #     return Movie.objects.filter(genre=self.genre).order_by('?').first()
+        # elif self.subject:
+        #     return Movie.objects.filter(subject=self.subject).order_by('?').first()
+        # else:
+        #     return Movie.objects.order_by('?').first()
 
     def reserve(self, number, user):
         # todo

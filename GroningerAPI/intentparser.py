@@ -30,11 +30,12 @@ class IntentParser:
                     context[key] = value['value']
         # todo: misschien hier na een paar keer menselijke help inroepen?
         result, context = getattr(self, intent)(context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
-        for key, value in context.items():
+        for key, value in context:
             if key != 'conversation':
                 setattr(conversation_data, key, value)
         conversation.conversation_params = conversation_data.to_json()
         conversation.save()
+        print(result)
         return result
 
     def _default(self, context):
@@ -64,7 +65,7 @@ class IntentParser:
 
     def find_movie(self, context):
         if 'subject' in context:
-            finder = MovieFinder(**context)
+            finder = MovieFinder(context)
             time = finder.find_best_time()
             if not time:
                 result = self.recommend_movie(context)
@@ -72,7 +73,7 @@ class IntentParser:
                 return result
             context['datetime'] = time
             context['intent'] = 'reserve_movie'
-            return [context['subject'] + ' speelt ' + DateFormatter(time) + '. Zal ik tickets voor je reserveren?', context]
+            return [context['subject'] + ' speelt ' + str(DateFormatter(time)) + '. Zal ik tickets voor je reserveren?', context]
         else:
             return self.recommend_movie(context)
 
@@ -83,7 +84,7 @@ class IntentParser:
         finder = MovieFinder(context)
         context['recommends'] = finder.recommend_movies()
         if len(context['recommends']):
-            context['subject'] = context['recommends'][0] #Dit wordt geen list meer maar een object straks
+            context['subject'] = context['recommends'] #Dit wordt geen list meer maar een object straks
             return ['Misschien is ' + context['subject'] + ' wat voor je?', context]
         else:
             context['intent'] = 'continue_chat'
@@ -100,7 +101,7 @@ class IntentParser:
                 result = self.recommend_movie(context)
                 result[0] = 'Helaas, ik kan ' + context['subject'] + ' %(film)s niet vinden. ' + result[0]
                 return result
-            elif 'datetime' in context and time != context['datetime']['value']:
+            elif 'datetime' in context and time != context['datetime']:
                 old_time = context['datetime']
                 context['datetime'] = time
                 context['intent'] = 'reserve_movie'
@@ -170,3 +171,9 @@ class IntentParser:
 
     def price_information(self, context):
         return self.information(context)
+
+    def greeting(self, context):
+        return ["Hallo, waarmee kan ik je van dienst zijn?", context]
+
+    def recommend_book(self, context):
+        return ["Op dit moment is onze bibliotheek gesloten", context]
