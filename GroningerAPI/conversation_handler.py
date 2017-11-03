@@ -13,14 +13,13 @@ class ConversationHandler:
                 user, created = User.objects.get_or_create(facebook_id=user_data['id'], name=user_data['first_name'], surname=user_data['last_name'])
             print(user)
 
-            yesterday = datetime.today() - timedelta(days=1)
+            #yesterday = datetime.today() - timedelta(days=1)
             #conversation = Conversation.objects.get_or_create(sender=user, time_stamp__range=(yesterday, datetime.today()))
-            conversation = Conversation.objects.order_by("-time_stamp").first()
-
+            conversation = Conversation.objects.filter(user=user).order_by("-time_stamp").first()
+            print(conversation)
             if not conversation:
                 conversation = Conversation(user=user)
                 conversation.save(force_insert=True)
-
 
             Message.objects.create(conversation=conversation, type="message", sender="user", data=message_text)
 
