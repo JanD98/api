@@ -59,7 +59,10 @@ class IntentParser:
 
     def yes(self, context):
         if 'intent' in context:
-            if context['intent'] == 'continue_chat':
+            if context['intent'] == 'review':
+                context['sentiment'] = 'positive'
+                return self.review(context)
+            elif context['intent'] == 'continue_chat':
                 return ['Waarmee kan ik je nog meer van dienst zijn?', {}]
             elif context['intent'] == 'recommend_movie':
                 return self.accept_recommend(context)
@@ -71,8 +74,11 @@ class IntentParser:
 
     def no(self, context):
         if 'intent' in context:
-            if context['intent'] == 'continue_chat':
-                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {}]
+            if context['intent'] == 'review':
+                context['sentiment'] = 'negative'
+                return self.review(context)
+            elif context['intent'] == 'continue_chat':
+                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {'context': 'review'}]
             elif context['intent'] == 'recommend_movie':
                 return self.recommend_other(context)
             elif context['intent'] == 'buy_drinks':
@@ -175,7 +181,7 @@ class IntentParser:
             return ['Helaas, ik denk niet dat dat zal kunnen. Het is dan altijd heel druk. Kan ik misschien wat anders voor je doen?', {'intent': 'continue_chat'}]
 
     def review(self, context):
-        if 'sentiment' in context and 'conversation_id' in context:
+        if 'sentiment' in context and 'conversation' in context:
             if context['sentiment'] == 'positive':
                 feedback = Feedback.objects.create(conversation=context['conversation'], rating=8)
                 feedback.save()
