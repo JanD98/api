@@ -39,7 +39,10 @@ class DateFormatter(object):
         return self.months[date_time.date().month-1]
 
     def date_to_hourstamp(self, date_time):
-        return date_time.strftime('%I:%M')
+        result = date_time.strftime('%I:%M')
+        if result[0] == '0':
+            result = result[1:]
+        return result
 
     def calculate_result(self, date_time):
         delta = date_time.date() - datetime.datetime.now().date()
