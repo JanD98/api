@@ -46,9 +46,16 @@ class IntentParser:
     def _default(self, context):
         if 'intent' in context and context['intent'] == 'recommend_movie' and 'genre' in context:
             return self.recommend_movie(context)
-        if 'intent' in context and context['intent'] == 'reserve_movie' and 'number' in context:
+        elif 'intent' in context and context['intent'] == 'card_number' and 'number' in context:
+            context['intent'] = 'continue_chat'
+            return ['Ik heb de kaarten naar jouw Facebook Messenger gestuurd. Kan ik je nu verder nog ergens mee helpen?', context]
+        elif 'intent' in context and context['intent'] == 'reserve_movie' and 'number' in context:
             del context['intent']
             return self.reserve_movie(context)
+
+    def messenger_channel(self, context):
+        context['intent'] = 'card_number'
+        return ['Ga ik regelen, mag ik je Groninger Forum kaartnummer?', context]
 
     def yes(self, context):
         if 'intent' in context:
@@ -66,6 +73,9 @@ class IntentParser:
                 return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {}]
             elif context['intent'] == 'recommend_movie':
                 return self.recommend_other(context)
+            elif context['intent'] == 'buy_drinks':
+                context['intent', 'ticket_channel']
+                return ['Geen probleem, waar wil je jouw kaarten ontvangen?', context]
             context['intent'] = 'continue_chat'
             return ['Ok, geen probleem. Kan ik nog iets anders voor je doen?', context]
 
@@ -146,7 +156,7 @@ class IntentParser:
 
     def accept_recommend(self, context):
         if 'intent' in context and context['intent'] == 'recommend_movie':
-            context['intent'] = 'reserve_movie'
+            context['intent'] = 'buy_drinks'
             return ['Ik stuur je door: https://www.groningerforum.nl/reserveren/65b98c9a-9aa3-41af-80ca-8c2329ff8b12', context]
 
     def find_parking(self, context):
