@@ -13,7 +13,7 @@ class MovieFinder(object):
         # todo
         return '2017-11-03T16:00:00.00+01:00'
 
-    def recommend_movies(self):
+    def recommend_movie(self):
         return 'Misfits', '2017-11-03T16:00:00.00+01:00', 'zaal 5'
         # if self.subject:
         #     return Movie.objects.filter(name=self.subject).order_by('?').first()
