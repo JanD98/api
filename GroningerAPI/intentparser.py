@@ -20,17 +20,23 @@ class IntentParser:
         for key, value in conversation_data.__dict__.items():
             context[key] = value
         intent = '_default'
+        print("intent" + intent)
         if 'entities' in data:
             for key, value in data['entities'].items():
                 if type(value) is list:
                     value = value[0]
+                    print(value)
                 if key == 'intent':
                     intent = value['value']
+                    print(int)
                 else:
                     context[key] = value['value']
+                    print(context)
+        print(intent)
         # todo: misschien hier na een paar keer menselijke help inroepen?
         result, context = getattr(self, intent)(context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
-        for key, value in context:
+        for key, value in context.items():
+            print(context)
             if key != 'conversation':
                 setattr(conversation_data, key, value)
         conversation.conversation_params = conversation_data.to_json()
@@ -41,7 +47,7 @@ class IntentParser:
     def _default(self, context):
         if 'intent' in context and context['intent'] == 'reserve_movie' and 'number' in context:
             del context['intent']
-            return self.reserve_movie(context)
+            return ["", self.reserve_movie(context)]
 
     def yes(self, context):
         if 'intent' in context:
@@ -161,16 +167,16 @@ class IntentParser:
                 return ['Bedankt voor je feedback. Hopelijk kunnen we je een volgende keer beter van dienst zijn.', []]
 
     def find_restaurant(self, context):
-        return self.information(context)
+        return ["", context]
 
     def reserve_restaurant(self, context):
-        return self.information(context)
+        return ["", context]
 
     def information(self, context):
         return ['Je kan alle informatie over het Groninger Forum vinden op onze website www.groningerforum.nl. Kan ik iets anders voor je doen?', {'intent': 'continue_chat'}]
 
     def price_information(self, context):
-        return self.information(context)
+        return ["", context]
 
     def greeting(self, context):
         return ["Hallo, waarmee kan ik je van dienst zijn?", context]
