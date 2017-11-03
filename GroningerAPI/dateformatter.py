@@ -39,7 +39,7 @@ class DateFormatter(object):
         return self.months[date_time.date().month-1]
 
     def date_to_hourstamp(self, date_time):
-        return date_time.strftime('%H:%M')
+        return date_time.strftime('%I:%M')
 
     def calculate_result(self, date_time):
         delta = date_time.date() - datetime.datetime.now().date()
@@ -47,6 +47,10 @@ class DateFormatter(object):
             return str(date_time.date().day) + " " + self.date_to_month_string(date_time) + " om " + self.date_to_hourstamp(date_time)
         elif delta.days > 7:
             return "volgende week " + self.date_to_weekday(date_time) + " om " + self.date_to_hourstamp(date_time) + " " + self.hour_to_prefix(date_time)
+        elif delta.days == 1:
+            return "morgen om " + self.date_to_hourstamp(date_time) + " " + self.hour_to_prefix(date_time)
+        elif delta.days == 0:
+            return "om " + self.date_to_hourstamp(date_time) + " " + self.hour_to_prefix(date_time)
         else:
             return self.date_to_weekday(date_time) + " om " + self.date_to_hourstamp(date_time) + " " + self.hour_to_prefix(date_time)
 
