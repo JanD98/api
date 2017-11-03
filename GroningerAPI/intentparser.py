@@ -169,16 +169,7 @@ class IntentParser:
             return ['Ik stuur je door: https://www.groningerforum.nl/reserveren/65b98c9a-9aa3-41af-80ca-8c2329ff8b12', context]
 
     def find_parking(self, context):
-        finder = ParkingFinder(**context)
-        count = finder.expected_spots()
-        if count > 50:
-            return ['Ja, dat is geen probleem. Kan ik nog wat anders voor je doen?', {'intent': 'continue_chat'}]
-        elif count > 10:
-            return ['Dat is denk ik geen probleem, maar het kan soms druk zijn. Kan ik nog wat anders voor je doen?', {'intent': 'continue_chat'}]
-        elif count > 0:
-            return ['Dat is heel krap. Ik kan niet beloven dat er nog plek zal zijn. Kan ik nog wat anders voor je doen?', {'intent': 'continue_chat'}]
-        else:
-            return ['Helaas, ik denk niet dat dat zal kunnen. Het is dan altijd heel druk. Kan ik misschien wat anders voor je doen?', {'intent': 'continue_chat'}]
+        return ["Ik weet dat nu niet. Ik laat mijn leraar, Sandrine, even meekijken", context]
 
     def review(self, context):
         if 'sentiment' in context and 'conversation' in context:
