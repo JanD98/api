@@ -63,6 +63,8 @@ class IntentParser:
                 return ['Waarmee kan ik je nog meer van dienst zijn?', {}]
             elif context['intent'] == 'recommend_movie':
                 return self.accept_recommend(context)
+            elif context['intent'] == 'ticket_channel':
+                return self.messenger_channel(context)
             intent = context['intent']
             del context['intent']
             return getattr(self, intent, lambda x: None)(context)
