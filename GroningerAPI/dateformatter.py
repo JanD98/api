@@ -8,10 +8,9 @@ class DateFormatter(object):
     times = ["'s ochtends", "'s middags", "'s avonds", "'s nachts"]
 
     def __init__(self, date):
-        self.date = date
+        self.date= datetime.datetime.strptime(date[:19], "%Y-%m-%dT%H:%M:%S")
 
     def __str__(self):
-        # todo
         if type(self.date) is dict:
             return self.calculate_result(self.date['value'])
         else:
