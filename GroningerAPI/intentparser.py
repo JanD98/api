@@ -44,9 +44,11 @@ class IntentParser:
         return result
 
     def _default(self, context):
+        if 'intent' in context and context['intent'] == 'recommend_movie' and 'genre' in context:
+            return self.recommend_movie(context)
         if 'intent' in context and context['intent'] == 'reserve_movie' and 'number' in context:
             del context['intent']
-            return ["", self.reserve_movie(context)]
+            return self.reserve_movie(context)
 
     def yes(self, context):
         if 'intent' in context:
@@ -169,16 +171,16 @@ class IntentParser:
                 return ['Bedankt voor je feedback. Hopelijk kunnen we je een volgende keer beter van dienst zijn.', {}]
 
     def find_restaurant(self, context):
-        return ["", context]
+        return self.information(context)
 
     def reserve_restaurant(self, context):
-        return ["", context]
+        return self.information(context)
 
     def information(self, context):
         return ['Je kan alle informatie over het Groninger Forum vinden op onze website www.groningerforum.nl. Kan ik iets anders voor je doen?', {'intent': 'continue_chat'}]
 
     def price_information(self, context):
-        return ["", context]
+        return self.information(context)
 
     def greeting(self, context):
         return ["Hallo, waarmee kan ik je van dienst zijn?", context]
