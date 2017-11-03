@@ -15,7 +15,7 @@ class ConversationHandler:
 
             yesterday = datetime.today() - timedelta(days=1)
             #conversation = Conversation.objects.get_or_create(sender=user, time_stamp__range=(yesterday, datetime.today()))
-            conversation = conversation = Conversation.objects.order_by("-time_stamp").first()
+            conversation = Conversation.objects.order_by("-time_stamp").first()
 
             if not conversation:
                 conversation = Conversation(user=user)
