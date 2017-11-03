@@ -36,7 +36,6 @@ class IntentParser:
         # todo: misschien hier na een paar keer menselijke help inroepen?
         result, context = getattr(self, intent)(context) or ['Ik kan je niet zo goed volgen, zou je me dit nog een keer kunnen vertellen?', context]
         for key, value in context.items():
-            print(context)
             if key != 'conversation':
                 setattr(conversation_data, key, value)
         conversation.conversation_params = conversation_data.to_json()
@@ -52,7 +51,7 @@ class IntentParser:
     def yes(self, context):
         if 'intent' in context:
             if context['intent'] == 'continue_chat':
-                return ['Waarmee kan ik je nog meer van dienst zijn?', []]
+                return ['Waarmee kan ik je nog meer van dienst zijn?', {}]
             intent = context['intent']
             del context['intent']
             return getattr(self, intent, lambda x: None)(context)
@@ -60,7 +59,7 @@ class IntentParser:
     def no(self, context):
         if 'intent' in context:
             if context['intent'] == 'continue_chat':
-                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', []]
+                return ['Mooi. Hopelijk kon ik je van dienst zijn. Mag ik je ten slotte nog vragen of je tevreden bent over dit gesprek?', {}]
             elif context['intent'] == 'recommend_movie':
                 return self.recommend_other(context)
             context['intent'] = 'continue_chat'
@@ -160,11 +159,11 @@ class IntentParser:
             if context['sentiment'] == 'positive':
                 feedback = Feedback.objects.create(conversation=context['conversation'], rating=8)
                 feedback.save()
-                return ['Bedankt voor je feedback, hopelijk tot een volgende keer!', []]
+                return ['Bedankt voor je feedback, hopelijk tot een volgende keer!', {}]
             elif context['sentiment'] == 'negative':
                 feedback = Feedback.objects.create(conversation=context['conversation'], rating=4)
                 feedback.save()
-                return ['Bedankt voor je feedback. Hopelijk kunnen we je een volgende keer beter van dienst zijn.', []]
+                return ['Bedankt voor je feedback. Hopelijk kunnen we je een volgende keer beter van dienst zijn.', {}]
 
     def find_restaurant(self, context):
         return ["", context]
