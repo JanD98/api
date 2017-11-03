@@ -74,7 +74,7 @@ class IntentParser:
             elif context['intent'] == 'recommend_movie':
                 return self.recommend_other(context)
             elif context['intent'] == 'buy_drinks':
-                context['intent', 'ticket_channel']
+                context['intent'] = 'ticket_channel'
                 return ['Geen probleem, waar wil je jouw kaarten ontvangen?', context]
             context['intent'] = 'continue_chat'
             return ['Ok, geen probleem. Kan ik nog iets anders voor je doen?', context]
@@ -107,7 +107,8 @@ class IntentParser:
         context['subject'], context['datetime'], location = finder.recommend_movie()
         if context['subject']:
             context['recommends'] = [context['subject']]
-            return [str(DateFormatter(context['datetime'])) + ' draait in ' + location + ' de film: ‘' + context['subject'] + '’', context]
+            s = str(DateFormatter(context['datetime']))
+            return [s[0].upper() + s[1:] + ' draait in ' + location + ' de film: ‘' + context['subject'] + '’', context]
         else:
             context['intent'] = 'continue_chat'
             return ['Helaas, ik kon niets voor je vinden. Kan ik misschien wat anders voor je doen?', context]
