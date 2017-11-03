@@ -28,7 +28,7 @@ class IntentParser:
                     print(value)
                 if key == 'intent':
                     intent = value['value']
-                    print(int)
+                    print(intent)
                 else:
                     context[key] = value['value']
                     print(context)
@@ -79,18 +79,21 @@ class IntentParser:
             context['datetime'] = time
             context['intent'] = 'reserve_movie'
             return [context['subject'] + ' speelt ' + str(DateFormatter(time)) + '. Zal ik tickets voor je reserveren?', context]
-        else:
+        elif 'genre' in context:
             return self.recommend_movie(context)
+        else:
+            context['intent'] = 'recommend_movie'
+            return ['Heb je een voorkeur?', context]
 
     def recommend_something(self, context):
         return self.recommend_movie(context)
 
     def recommend_movie(self, context):
         finder = MovieFinder(context)
-        context['recommends'] = finder.recommend_movies()
-        if len(context['recommends']):
-            context['subject'] = context['recommends'] #Dit wordt geen list meer maar een object straks
-            return ['Misschien is ' + context['subject'] + ' wat voor je?', context]
+        context['subject'], context['datetime'], location = finder.recommend_movie()
+        if context['subject']:
+            context['recommends'] = [context['subject']]
+            return [str(DateFormatter(context['datetime'])) + ' draait in ' + location + ' de film: ‘' + context['subject'] + '’', context]
         else:
             context['intent'] = 'continue_chat'
             return ['Helaas, ik kon niets voor je vinden. Kan ik misschien wat anders voor je doen?', context]
@@ -140,7 +143,7 @@ class IntentParser:
     def accept_recommend(self, context):
         if 'intent' in context and context['intent'] == 'recommend_movie':
             context['intent'] = 'reserve_movie'
-            return ['Leuk, zal ik die voor je reserveren?', context]
+            return ['Ik stuur je door: https://www.groningerforum.nl/reserveren/65b98c9a-9aa3-41af-80ca-8c2329ff8b12', context]
 
     def find_parking(self, context):
         finder = ParkingFinder(**context)
